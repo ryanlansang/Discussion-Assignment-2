@@ -1,3 +1,5 @@
+import numpy as np
+
 # @arg arr The input list like object to be sorted
 # @arg cmp A compare function which takes two element in the array, 
 #          cmp(a,b)<0   if a should be placed before b,
@@ -45,5 +47,20 @@ def sort(arr, l, m, r, cmp):
             ix2 += 1 
 
 # must be in-place sort
-def quick_sort(arr,cmp):
-    pass
+def quick_sort(arr, cmp):
+  if len(arr) <= 1: return arr
+  pivot = arr[np.random.randint(len(arr))]
+  arr_large, arr_small, arr_equal = [], [], []
+  for e in arr:
+    #if e > pivot:
+    if cmp(e, pivot) == 1:
+      arr_large.append(e)
+    #elif e < pivot:
+    elif cmp(e, pivot) == -1:
+      arr_small.append(e)
+    else:
+      arr_equal.append(e)
+  arr_small = quick_sort(arr_small, cmp)
+  arr_large = quick_sort(arr_large, cmp)
+  arr = arr_small + arr_equal + arr_large
+  return arr
